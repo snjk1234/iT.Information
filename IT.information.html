@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Information</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            max-width: 1300px;
+            margin: 150px auto;
+            padding: 20px;
+            background-color: #5c3d3d;
+        }
+
+        .container {
+            background: #5c3d3d;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 0 20px rgba(238, 202, 44, 0.658);
+        }
+
+        h1 {
+            color: #e5f1a1;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .input-field {
+            margin-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #83943a;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #747566;
+            border-radius: 15px;
+            font-size: 16px;
+            background-color: #ebeae1;
+        }
+
+        button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #addBtn {
+            background: #196da5;
+            color: white;
+            display: block;
+            margin: 20px 5px;
+        }
+        .action-btn
+        #addBtn:hover {
+            background: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+            color: #ffffff;
+        }
+
+        th {
+            background-color: #5c3d3d;
+            color: white;            
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            margin: 0 3px;
+        }
+
+        .edit-btn {
+            background: #f1c40f;
+            color: #2c3e50;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IT Information</h1>
+        
+        <div class="input-group">
+            <div class="input-field">
+                <label>Brance_name</label>
+                <input type="text" id="Brance_name" placeholder="اسم الفرع">
+            </div>
+            <div class="input-field">
+                <label>DISPLAY</label>
+                <input type="text" id="DISPLAY" placeholder="الشاشة">
+            </div>
+            <div class="input-field">
+                <label>COMPUTER</label>
+                <input type="text" id="COMPUTER" placeholder="جهاز الكمبيوتر">
+            </div>
+            <div class="input-field">
+                <label>MODEL</label>
+                <input type="text" id="MODEL" placeholder="الموديل">
+            </div>
+            <div class="input-field">
+                <label>GENARATION</label>
+                <input type="text" id="GENARATION" placeholder="الجيل">
+            </div>
+            <div class="input-field">
+                <label>HARDISK</label>
+                <input type="text" id="HARDISK" placeholder="هارديسك">
+            </div>
+            <div class="input-field">
+                <label>RAM</label>
+                <input type="text" id="RAM" placeholder="رام">
+            </div>
+            <div class="input-field">
+                <label>PRINTER</label>
+                <input type="text" id="PRINTER" placeholder="الطابعة">
+            </div>
+            <div class="input-field">
+                <label>PRINTER_VER</label>
+                <input type="text" id="PRINTER_VER" placeholder="موديل الطابعة">
+            </div>
+
+        </div>
+        
+        <button id="addBtn">Add Data</button>
+
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Brance_name</th>
+                    <th>DISPLAY</th>
+                    <th>COMPUTER</th>
+                    <th>MODEL</th>
+                    <th>GENARATION</th>
+                    <th>HARDISK</th>
+                    <th>RAM</th>
+                    <th>PRINTER</th>
+                    <th>PRINTER_VER</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Initialize local storage
+        let data = JSON.parse(localStorage.getItem('crudData')) || [];
+
+        // Form elements
+        const Brance_nameInput = document.getElementById('Brance_name');
+        const DISPLAYInput = document.getElementById('DISPLAY');
+        const COMPUTERInput = document.getElementById('COMPUTER');
+        const MODELInput = document.getElementById('MODEL');
+        const GENARATIONInput = document.getElementById('GENARATION');
+        const HARDISKInput = document.getElementById('HARDISK');
+        const RAMInput = document.getElementById('RAM');
+        const PRINTERInput = document.getElementById('PRINTER');
+        const PRINTER_VERInput = document.getElementById('PRINTER_VER');
+        const addBtn = document.getElementById('addBtn');
+        const tbody = document.querySelector('#dataTable tbody');
+
+        // Render table
+        function renderTable() {
+            tbody.innerHTML = '';
+            data.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.Brance_name}</td>
+                    <td>${item.DISPLAY}</td>
+                    <td>${item.COMPUTER}</td>
+                    <td>${item.MODEL}</td>
+                    <td>${item.GENARATION}</td>
+                    <td>${item.HARDISK}</td>
+                    <td>${item.RAM}</td>
+                    <td>${item.PRINTER}</td>
+                    <td>${item.PRINTER_VER}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editData(${index})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteData(${index})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Add/Update data
+        addBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (!Brance_nameInput.value ||!DISPLAYInput.value ||!COMPUTERInput.value ||!MODELInput.value ||!GENARATIONInput.value ||!HARDISKInput.value || !RAMInput.value || !PRINTERInput.value || !PRINTER_VERInput.value) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            const newData = {
+                Brance_name: Brance_nameInput.value,
+                DISPLAY: DISPLAYInput.value,
+                COMPUTER: COMPUTERInput.value,
+                MODEL: MODELInput.value,
+                GENARATION: GENARATIONInput.value,
+                HARDISK: HARDISKInput.value,
+                RAM: RAMInput.value,
+                PRINTER: PRINTERInput.value,
+                PRINTER_VER: PRINTER_VERInput.value,
+            };
+
+            if (addBtn.dataset.editIndex !== undefined) {
+                // Update existing data
+                data[addBtn.dataset.editIndex] = newData;
+                addBtn.textContent = 'Add Data';
+                delete addBtn.dataset.editIndex;
+            } else {
+                // Add new data
+                data.push(newData);
+            }
+
+            localStorage.setItem('crudData', JSON.stringify(data));
+            clearInputs();
+            renderTable();
+        });
+
+        // Edit data
+        window.editData = (index) => {
+            const item = data[index];
+            Brance_nameInput.value = item.Brance_name;
+            DISPLAYInput.value = item.DISPLAY;
+            COMPUTERInput.value = item.COMPUTER;
+            MODELInput.value = item.MODEL;
+            GENARATIONInput.value = item.GENARATION;
+            HARDISKInput.value = item.HARDISK;
+            RAMInput.value = item.RAM;
+            PRINTERInput.value = item.PRINTER;
+            PRINTER_VERInput.value = item.PRINTER_VER;
+            
+            addBtn.textContent = 'Update Data';
+            addBtn.dataset.editIndex = index;
+        };
+
+        // Delete data
+        window.deleteData = (index) => {
+            if (confirm('Are you sure you want to delete this record?')) {
+                data.splice(index, 1);
+                localStorage.setItem('crudData', JSON.stringify(data));
+                renderTable();
+            }
+        };
+
+        // Clear inputs
+        function clearInputs() {
+            Brance_nameInput.value = '';
+            DISPLAYInput.value = '';
+            COMPUTERInput.value = '';
+            MODELInput.value = '';
+            GENARATIONInput.value = '';
+            HARDISKInput.value = '';
+            RAMInput.value = '';
+            PRINTERInput.value = '';
+            PRINTER_VERInput.value = '';
+        }
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+</html>
